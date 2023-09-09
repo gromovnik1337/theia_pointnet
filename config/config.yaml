@@ -1,2 +1,3 @@
 dataset:
-  path: "/media/gromovnik/Vice_SSD/01. Projects/01. THEIA/SELENE/data/MCB/MCB_B"
+  train: "/media/gromovnik/Vice_SSD/01. Projects/01. THEIA/SELENE/data/MCB/MCB_B/train"
+  test: "/media/gromovnik/Vice_SSD/01. Projects/01. THEIA/SELENE/data/MCB/MCB_B/test"

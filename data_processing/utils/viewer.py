@@ -2,7 +2,7 @@ import trimesh
 import plotly.graph_objects as go
 import numpy as np
 
-
+#TODO(vice) Do unit tests for this!
 class Viewer():
     """Interactive visualizer for meshes and points clouds.
     """
@@ -30,12 +30,16 @@ class Viewer():
                                 opacity = opacity)
         self.viewer.add_trace(mesh_object)
 
-    def add_pc(self, pc:np.ndarray,  
-                 opacity:float = 1.0) -> None:
+    def add_pc(self, pc:np.ndarray,
+                size: float = 1.0,
+                color:str = 'red',
+                opacity:float = 1.0) -> None:
         """Adds a point cloud trace to the viewer.
 
         Args:
             pc: Input point cloud (x, y, z).
+            size: Size of the points.
+            color: Color of the points.
             opacity: Value from 0 to 1, determines 
                      the opacity of the trace.
         """
@@ -43,6 +47,7 @@ class Viewer():
                                  y = pc[:, 1],
                                  z = pc[:, 2],
                                  mode = 'markers',
+                                 marker=dict(size=size, color=color),
                                  opacity = opacity)
         self.viewer.add_trace(pc_object)
         
