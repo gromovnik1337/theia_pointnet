@@ -7,8 +7,6 @@ References:
     https://pytorch.org/tutorials/beginner/data_loading_tutorial.html
     https://shashikachamod4u.medium.com/excel-csv-to-pytorch-dataset-def496b6bcc1
 """
-from config import config
-from data_processing.utils import viewer
 import pathlib
 import trimesh
 import numpy as np
@@ -103,7 +101,8 @@ DEFAULT_TRANSFORMS = transforms.Compose([
 
 class McbData(Dataset):
     def __init__(self, dataset_dir: Union[pathlib.Path, str],
-                 transforms: Type[transforms.transforms.Compose] = DEFAULT_TRANSFORMS):
+                 transforms: Type[transforms.transforms.Compose] = DEFAULT_TRANSFORMS,
+                 sampling: int = 1024):
         """Performs initial loading of the MCB dataset, as a collection
         of mesh paths and their categories. Also, it loads the transformations
         that are to be applied on each data entry.
@@ -112,9 +111,12 @@ class McbData(Dataset):
             dataset_dir: Input directory.
             transforms: A composition of transformations that are to be applied
                         on the input point cloud.
+            sampling: Number of points that are to be sampled from the input mesh.
+                      Default value is the default PointNet feature vector size.
         """
         self.dataset_dir = pathlib.Path(dataset_dir)
         self.transforms = transforms
+        self.sampling = sampling
         
         # Create a dict with class names & their indices.
         folders = [dir.stem for dir in sorted(dataset_dir.iterdir()) if dir.is_dir()]
@@ -152,7 +154,7 @@ class McbData(Dataset):
         mesh_path = self.samples[idx]['mesh_path']
         category_idx = self.samples[idx]['category_idx']
         mesh = trimesh.load(mesh_path, force='mesh')
-        pc = SamplePc(1024)(mesh) 
+        pc = SamplePc(self.sampling)(mesh) 
         # Apply transformations:
         pc = self.__preproc__(pc)
         # Create Pytorch tensor output.
