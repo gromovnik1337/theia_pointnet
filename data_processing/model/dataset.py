@@ -42,8 +42,7 @@ class SamplePc(object):
 
 class NormalizePc(object):
     def __call__(self, pc:np.ndarray)-> np.ndarray:
-        # TODO(vice) Check the paper for name of the normalization
-        """Normalizes point cloud.
+        """Normalizes point cloud to a unit sphere.
         
         Args:
             pc: Input point cloud.
@@ -70,6 +69,9 @@ class ApplyRandomRotationZ(object):
         Returns:
             Rotated point cloud.
         """
+        if len(pc.shape) != 2:
+            print('Invalid point cloud!')
+            return np.array([])
         theta = np.random.random(1) * 2 * math.pi
         rot_matrix = np.array([[math.cos(theta), -math.sin(theta), 0],
                                [math.sin(theta), math.cos(theta), 0],
@@ -89,6 +91,9 @@ class AddJitter(object):
         Returns:
             Point cloud with added noise.
         """
+        if len(pc.shape) != 2:
+            print('Invalid point cloud!')
+            return np.array([])
         jitter = np.random.normal(0, 0.02, (pc.shape))
         pc_noisy = pc + jitter
         
