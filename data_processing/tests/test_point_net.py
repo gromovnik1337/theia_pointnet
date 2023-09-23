@@ -1,5 +1,4 @@
 import torch
-import torch.utils.data as data
 import numpy as np
 from data_processing.model import dataset
 from torchvision import transforms
@@ -28,8 +27,8 @@ def test_training(test_dir):
     ds_valid = dataset.McbData(test_dir, valid_transforms)
     assert len(ds_train) == 2 == len(ds_valid)
 
-    train_loader = data.DataLoader(dataset=ds_train, batch_size=2, shuffle=True)
-    valid_loader = data.DataLoader(dataset=ds_valid, batch_size=2, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(dataset=ds_train, batch_size=2, shuffle=True)
+    valid_loader = torch.utils.data.DataLoader(dataset=ds_valid, batch_size=2, shuffle=True)
 
     # Instantiate a model.
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

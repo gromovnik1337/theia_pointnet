@@ -6,14 +6,13 @@ import time
 import pathlib
 import gc
 import torch
+import tqdm
 import numpy as np
-import matplotlib.pyplot as plt
 from config import config
 from data_processing.model.model import PointNetClassification
 from data_processing.model.model import point_net_loss
 import data_processing.model.dataset as dataset
 from torchvision import transforms
-import torch.utils.data as data
 
 
 def save_model_and_loss(
@@ -47,28 +46,6 @@ def save_model_and_loss(
             f.write(str(element) + "\n")
     print("Model, state dictionary and loss values saved at: ", str(output_dir))
 
-
-def plot_loss(
-    model_name: str, train_loss: List[float], valid_loss: List[float]
-) -> None:
-    """Visualizes the loss data of the trained model.
-    # TODO(vice) Move to notebook!
-
-    Args:
-        model_name: Name of the trained model.
-        train_loss: Loss data generated during training.
-        valid_loss: Loss data generated during validation.
-    """
-    plt.figure(figsize=(12, 7))
-    plt.suptitle(model_name + " loss values")
-    plt.xlabel("Epochs")
-    plt.ylabel("Loss")
-    plt.plot(train_loss)
-    plt.plot(valid_loss)
-    plt.legend(["Training Loss", "Validation Loss"])
-    plt.show()
-
-
 def train_point_net(
     model: torch.nn.Module,
     device: torch.device,
@@ -96,7 +73,7 @@ def train_point_net(
     time_start = time.time()
     print("Training the model!")
 
-    for epoch in range(epochs):
+    for epoch in tqdm.trange(epochs):
         # Training loop.
         model.train()
         train_loss = 0.0
@@ -165,12 +142,6 @@ if __name__ == "__main__":
         help="Name of the model that is to be trained.",
     )
     parser.add_argument(
-        "--dataset",
-        type=str,
-        required=True,
-        help="Absolute path of the directory containing dataset.",
-    )
-    parser.add_argument(
         "--output_path",
         type=str,
         required=True,
@@ -181,6 +152,7 @@ if __name__ == "__main__":
 
     # Set the device & clean the memory
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print("Device: ", device)
     torch.cuda.empty_cache()
 
     # Load global config.
@@ -202,12 +174,12 @@ if __name__ == "__main__":
 
     print("Loading training and testing (validation) dataset!")
     dataset_train = dataset.McbData(dataset_train_path, train_transforms)
-    train_loader = data.DataLoader(
+    train_loader = torch.utils.data.DataLoader(
         dataset=dataset_train, batch_size=batch_size, shuffle=True
     )
 
     dataset_valid = dataset.McbData(dataset_train_path, valid_transforms)
-    valid_loader = data.DataLoader(
+    valid_loader = torch.utils.data.DataLoader(
         dataset=dataset_valid, batch_size=batch_size, shuffle=True
     )
 

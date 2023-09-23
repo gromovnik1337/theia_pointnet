@@ -9,6 +9,6 @@ setup(
     install_requires=[
         'numpy', 'scipy==1.8.1', 'matplotlib', 'plotly',
         'pytest', 'notebook', 'ipykernel', 'pandas', 'torch',
-        'torchvision', 'scikit-learn', 'trimesh', 'black'
+        'torchvision', 'scikit-learn', 'trimesh', 'black', 'tqdm'
     ],
 )

@@ -1,6 +1,5 @@
 from data_processing.model import dataset
 from torchvision import transforms
-import torch.utils.data as data
 import torch
 
 
@@ -22,7 +21,7 @@ def test_dataset(test_dir):
 def test_dataset_loaded(test_dir):
     # Load the test dataset.
     ds = dataset.McbData(test_dir)
-    ds_loader = data.DataLoader(dataset=ds, batch_size=2, shuffle=True)
+    ds_loader = torch.utils.data.DataLoader(dataset=ds, batch_size=2, shuffle=True)
     assert len(ds_loader) == 1
     # Test proper category indexing.
     test_category_idx = torch.tensor([0])
