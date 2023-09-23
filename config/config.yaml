@@ -1,3 +1,8 @@
 dataset:
   train: "/media/gromovnik/Vice_SSD/01. Projects/01. THEIA/SELENE/data/MCB/MCB_B/train"
   test: "/media/gromovnik/Vice_SSD/01. Projects/01. THEIA/SELENE/data/MCB/MCB_B/test"
+seed: 42
+batch_size: 32
+epochs: 15
+lr: 0.001
+alpha: 0.0001
