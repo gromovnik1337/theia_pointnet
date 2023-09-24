@@ -1,4 +1,4 @@
-from data_processing.model import dataset
+from model import dataset
 from torchvision import transforms
 import torch
 

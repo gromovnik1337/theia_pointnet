@@ -1,9 +1,9 @@
 import torch
 import numpy as np
-from data_processing.model import dataset
+from model import dataset
 from torchvision import transforms
-from data_processing.model.model import PointNetClassification
-from data_processing.model.train_and_save import train_point_net
+from model.model import PointNetClassification
+from model.train_and_save import train_point_net
 
 _LOSS_TEST_TOL = 0.1
 
@@ -27,8 +27,12 @@ def test_training(test_dir):
     ds_valid = dataset.McbData(test_dir, valid_transforms)
     assert len(ds_train) == 2 == len(ds_valid)
 
-    train_loader = torch.utils.data.DataLoader(dataset=ds_train, batch_size=2, shuffle=True)
-    valid_loader = torch.utils.data.DataLoader(dataset=ds_valid, batch_size=2, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(
+        dataset=ds_train, batch_size=2, shuffle=True
+    )
+    valid_loader = torch.utils.data.DataLoader(
+        dataset=ds_valid, batch_size=2, shuffle=True
+    )
 
     # Instantiate a model.
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

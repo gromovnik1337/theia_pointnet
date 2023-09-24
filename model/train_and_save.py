@@ -9,9 +9,9 @@ import torch
 import tqdm
 import numpy as np
 from config import config
-from data_processing.model.model import PointNetClassification
-from data_processing.model.model import point_net_loss
-import data_processing.model.dataset as dataset
+from model.model import PointNetClassification
+from model.model import point_net_loss
+import model.dataset as dataset
 from torchvision import transforms
 
 
@@ -45,6 +45,7 @@ def save_model_and_loss(
         for element in valid_loss:
             f.write(str(element) + "\n")
     print("Model, state dictionary and loss values saved at: ", str(output_dir))
+
 
 def train_point_net(
     model: torch.nn.Module,
