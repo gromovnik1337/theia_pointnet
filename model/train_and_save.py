@@ -9,9 +9,9 @@ import torch
 import tqdm
 import numpy as np
 from config import config
-from model.model import PointNetClassification
-from model.model import point_net_loss
-import model.dataset as dataset
+from model import PointNetClassification
+from model import point_net_loss
+import dataset as dataset
 from torchvision import transforms
 
 
