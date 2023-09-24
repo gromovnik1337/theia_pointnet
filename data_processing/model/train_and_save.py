@@ -175,12 +175,12 @@ if __name__ == "__main__":
     print("Loading training and testing (validation) dataset!")
     dataset_train = dataset.McbData(dataset_train_path, train_transforms)
     train_loader = torch.utils.data.DataLoader(
-        dataset=dataset_train, batch_size=batch_size, shuffle=True
+        dataset=dataset_train, batch_size=batch_size, shuffle=True, num_workers=4
     )
 
     dataset_valid = dataset.McbData(dataset_train_path, valid_transforms)
     valid_loader = torch.utils.data.DataLoader(
-        dataset=dataset_valid, batch_size=batch_size, shuffle=True
+        dataset=dataset_valid, batch_size=batch_size, shuffle=True, num_workers=4
     )
 
     # Instantiate a model.
